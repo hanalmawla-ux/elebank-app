@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>EleBank</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:color-mix(in srgb,var(--acc) 7%,#0e0d0f);--card:color-mix(in srgb,var(--acc) 5%,#242022);--bd:color-mix(in srgb,var(--acc) 22%,#2a2125);--gl0:#fff;--at:var(--acc);--btn-bg:var(--card2);--btn-tx:var(--tx);--btn-bd:var(--bd);--sw-off:var(--bd);--sh:none;--err:#ff6b6b;--tx:#fff;--mut:#b7aab0;--base:#140e11;--ph:32%;--pc:20%;--acc:#ff6b9d;--on:#2b0f1a;--ok:#34d399;--hero:color-mix(in srgb,var(--acc) var(--ph),var(--base));--card2:color-mix(in srgb,var(--acc) var(--pc),var(--base))}
+:root[data-theme="light"]{--bg:color-mix(in srgb,var(--acc) 9%,#fff);--card:color-mix(in srgb,var(--acc) 3%,#fff);--bd:color-mix(in srgb,var(--acc) 30%,#fff);--tx:color-mix(in srgb,var(--acc) 12%,#1d1b1c);--mut:color-mix(in srgb,var(--acc) 8%,#58525a);--base:#fff;--ph:24%;--pc:16%;--ok:#0e9f6e;--gl0:color-mix(in srgb,var(--acc) 40%,#fff);--at:color-mix(in srgb,var(--acc) 58%,#1a0710);--btn-bg:#f5f5f5;--btn-tx:#000;--btn-bd:#c4c4cc;--sw-off:#9a9aa3;--sh:0 1px 2px rgba(20,20,30,.08),0 2px 8px rgba(20,20,30,.05);--err:#c81e3a}
+:root[data-c="purple"]{--acc:#8b5cf6;--on:#fff}:root[data-c="blue"]{--acc:#3b82f6;--on:#fff}
+:root[data-c="green"]{--acc:#10b981;--on:#052e1f}:root[data-c="orange"]{--acc:#f59e0b;--on:#2a1a02}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic",Arial,sans-serif}
+#app{max-width:480px;margin:0 auto;padding:18px 18px 120px}
+h1,h2,h3,p{margin:0}svg.i{flex:none;vertical-align:middle}
+.p1{fill:var(--acc)}.p2{fill:color-mix(in srgb,var(--acc) 72%,#000)}.p3{fill:color-mix(in srgb,var(--acc) 38%,#fff)}.y{fill:#ffd166}.b{fill:#8fd3e8}.w{fill:#fff}.d{fill:#3b2430}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:28px;padding:20px;margin-bottom:18px;box-shadow:var(--sh)}
+.hero{background:var(--hero);position:relative;overflow:hidden}
+.hd{display:flex;align-items:center;gap:12px;margin:6px 0 22px}
+.lg{width:54px;height:54px;border-radius:17px;background:var(--card2);color:var(--at);display:grid;place-items:center;flex:none}
+.hd .t{flex:1}.hd h1{font-size:30px;line-height:1.1}.mut{color:var(--mut)}.sm{font-size:14px}
+.pill{border:1px solid var(--btn-bd);background:var(--btn-bg);color:var(--at);border-radius:16px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.btn{display:flex;gap:8px;align-items:center;justify-content:center;width:100%;border:0;border-radius:999px;min-height:54px;padding:0 18px;background:var(--acc);color:var(--on);font:inherit;font-size:19px;font-weight:700;cursor:pointer}
+.btn.g{background:var(--btn-bg);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:18px;min-height:56px}
+.btn.k{background:var(--btn-bg);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:18px}
+.tag{display:flex;gap:6px;align-items:center;font-size:12px;letter-spacing:.08em;color:var(--at);font-weight:700;margin-bottom:12px}
+.big{font-size:32px;font-weight:800;line-height:1.15;max-width:55%}
+.pig{position:absolute;width:140px;top:22px;inset-inline-end:14px;overflow:visible;filter:drop-shadow(0 0 12px color-mix(in srgb,var(--acc) 45%,transparent))}
+.pig .p1{fill:url(#gl);stroke:rgba(255,255,255,.6);stroke-width:1.2}
+.pig .p2{fill:color-mix(in srgb,var(--acc) 50%,transparent);stroke:rgba(255,255,255,.4);stroke-width:1}
+.pig .p3{fill:rgba(255,255,255,.35);stroke:rgba(255,255,255,.65);stroke-width:1}
+.pig{animation:walk 1.1s ease-in-out infinite;transform-origin:50% 100%}
+.pig .ear{animation:ear 1.1s ease-in-out infinite;transform-box:fill-box;transform-origin:85% 8%}
+.pig .tail{animation:tail .55s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:100% 0}
+.pig .coin{animation:coin 1.1s ease-in-out infinite}
+@keyframes walk{0%,100%{transform:translateY(0) rotate(-1.5deg)}25%,75%{transform:translateY(-3px) rotate(0)}50%{transform:translateY(0) rotate(1.5deg)}}
+@keyframes ear{0%,100%{transform:rotate(0)}50%{transform:rotate(-12deg)}}
+@keyframes tail{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+@keyframes coin{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes jump{0%{transform:translateY(0) scale(1,1)}20%{transform:translateY(0) scale(1.08,.9)}50%{transform:translateY(-22px) rotate(-6deg) scale(.96,1.06)}80%{transform:translateY(0) rotate(4deg) scale(1.06,.94)}100%{transform:translateY(0)}}
+.pig.happy,.cheer .pig{animation:jump .7s ease-out 3}
+.pig.happy .ear,.pig.happy .tail,.cheer .ear,.cheer .tail{animation-duration:.25s}
+.cheer{position:fixed;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none;background:color-mix(in srgb,var(--bg) 78%,transparent);animation:fadeo 2.1s forwards}
+.cheer .pig{position:static;width:190px}
+.cheer .amt{position:absolute;top:22%;left:0;right:0;text-align:center;font-size:36px;font-weight:800;color:var(--at);animation:rise 2s ease-out forwards}
+.cheer .cf{position:absolute;left:50%;top:50%;font-size:26px;animation:fly 1.6s ease-out forwards}
+@keyframes fadeo{0%{opacity:0}10%,80%{opacity:1}100%{opacity:0}}
+@keyframes rise{from{transform:translateY(20px)}to{transform:translateY(-14px)}}
+@keyframes fly{from{transform:translate(0,0) scale(.4);opacity:1}to{transform:translate(var(--x),var(--y)) scale(1.2) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){.pig,.pig *{animation:none!important}}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cnt{background:var(--card2);color:var(--at);border-radius:14px;padding:3px 12px;font-size:15px;margin-inline-start:10px;font-weight:700}
+.thumb{height:200px;margin:-20px -20px 16px;border-radius:28px 28px 0 0;background:var(--card2);display:grid;place-items:center;position:relative;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.badge{position:absolute;top:14px;inset-inline-start:14px;background:color-mix(in srgb,var(--card) 88%,transparent);color:var(--at);font-size:14px;font-weight:700;border-radius:14px;padding:6px 12px;display:flex;gap:6px;align-items:center}
+.num{font-size:38px;font-weight:800;color:var(--at);line-height:1.1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;padding:22px 8px}
+.stats>div{padding:0 4px}.stats>div+div{border-inline-start:1px solid var(--bd)}
+.stats b{display:block;font-size:24px;margin:8px 0 2px}.stats .i{color:var(--at)}.stats .g{color:var(--ok)}
+.ch{font-size:22px;font-weight:800;margin:6px 0 14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 22px}
+.ic{border:2px solid var(--bd);border-radius:22px;background:var(--card);padding:14px 4px 12px;text-align:center;cursor:pointer;font:inherit;font-weight:700;font-size:15px;color:var(--tx)}
+.ic svg{display:block;margin:0 auto 4px}.ic.on{border-color:var(--at)}
+.seg{display:flex;background:var(--btn-bg);border:1px solid var(--btn-bd);border-radius:26px;padding:6px;margin:20px 0}
+.seg button{flex:1;border:0;border-radius:20px;background:none;color:var(--btn-tx);font:inherit;font-weight:700;font-size:16px;padding:16px;cursor:pointer;display:flex;gap:8px;align-items:center;justify-content:center}
+.seg .on{background:var(--acc);color:var(--on)}
+.chips{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+.cc{flex:none;min-width:74px;border:1px solid var(--btn-bd);border-radius:16px;background:var(--btn-bg);color:var(--btn-tx);font:inherit;font-weight:700;padding:14px 12px;cursor:pointer}
+.cc.on{background:var(--acc);color:var(--on)}
+label{display:block;font-weight:700;font-size:18px;margin:20px 0 10px}
+input{width:100%;border:1px solid var(--bd);border-radius:18px;background:var(--card);color:var(--tx);font:inherit;padding:18px}
+.up{border:1px solid var(--bd);border-radius:30px;padding:46px 20px;text-align:center;cursor:pointer;background:var(--hero);margin-bottom:12px}
+.up .cam{width:72px;height:72px;border-radius:22px;background:var(--bg);color:var(--at);display:grid;place-items:center;margin:0 auto 18px}
+.up img{max-width:100%;max-height:200px;border-radius:16px}
+.top{display:flex;align-items:center;justify-content:space-between;font-size:19px;font-weight:700}
+.back{border:1px solid var(--btn-bd);background:var(--btn-bg);color:var(--btn-tx);width:52px;height:52px;border-radius:16px;cursor:pointer;display:grid;place-items:center}
+[dir=rtl] .back svg{transform:scaleX(-1)}
+.err{color:var(--err);font-size:14px;min-height:22px;margin:10px 0}
+.sw{width:64px;height:36px;border-radius:18px;border:0;background:var(--sw-off);box-shadow:inset 0 0 0 1px var(--btn-bd);position:relative;cursor:pointer;flex:none}
+.sw i{position:absolute;top:4px;inset-inline-start:4px;width:28px;height:28px;border-radius:50%;background:#fff;color:#1b1215;display:grid;place-items:center;transition:.2s}
+.sw.on{background:var(--acc)}.sw.on i{inset-inline-start:32px}
+.dots{display:flex;justify-content:space-between;margin:18px 0 14px}
+.dot{width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,.2);cursor:pointer;color:var(--on);display:grid;place-items:center}
+.dot.on{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--tx)}
+.sq{width:50px;height:50px;border-radius:15px;background:var(--card2);color:var(--at);display:grid;place-items:center;flex:none}
+.dep{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--bd)}
+.dep .sq{background:color-mix(in srgb,var(--ok) 18%,var(--base));color:var(--ok);width:58px;height:58px}
+.dep .a{margin-inline-start:auto;color:var(--ok);font-weight:800;font-size:20px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding:0 0 env(safe-area-inset-bottom,0px);z-index:10}
+nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-size:13px;padding:12px 4px;cursor:pointer;display:flex;flex-direction:column;gap:4px;align-items:center}
+nav .on{background:var(--card2);color:var(--at)}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
+.ov .card{width:100%;max-width:380px;margin:0}
+#splash{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:radial-gradient(circle at 50% 42%,var(--hero),var(--bg) 72%);transition:opacity .6s;animation:sin .5s ease-out}
+#splash.out{opacity:0;pointer-events:none}
+#splash .pig{position:static;width:240px}
+#splash h1{font-size:42px;animation:sin .8s ease-out .3s both}
+#splash p{color:var(--mut);animation:sin .8s ease-out .6s both}
+@keyframes sin{from{opacity:0}to{opacity:1}}
+body{background-image:radial-gradient(120% 55% at 50% 0%,color-mix(in srgb,var(--acc) 18%,transparent),transparent 70%);background-repeat:no-repeat;background-attachment:fixed}
+.pig .tusk{stroke:var(--acc);stroke-opacity:.5;stroke-width:1}
+:root[data-theme="light"] .pig .p1{stroke:var(--acc);stroke-opacity:.5}
+:root[data-theme="light"] .pig .p3{fill:rgba(255,255,255,.6);stroke:var(--acc);stroke-opacity:.35}
+:root[data-theme="light"][data-c="pink"]{--acc:#ff2d55;--on:#fff}
+</style></head>
+<body><div id="app"></div><nav id="nav"></nav><div id="m"></div>
+<script>
+const I={en:{tag:'DREAM. SAVE. REPEAT.',h1:'Small savings. Big dreams.',sub:'Your next big thing starts with a little.',add:'Add new goal',dev:'Saved on your device',list:'Your dream list',tgt:'Target',sv:'Saved',am:'Add money',del:'Delete',saving:'Saving',done:'Done',tot:'Total saved',gl:'Total goals',cp:'Completed',tabs:['My savings','Insights','Settings'],look:'Look how far you have come',steps:'Small steps. Real progress.',prog:'In progress',byc:'Your savings by currency',rec:'Recent deposits',none:'Nothing here yet',lang:'App language',dark:'Dark mode',darkS:'A softer glow for your savings.',theme:'Theme color',themeS:'Make your dream list feel like you.',pT:'Your dreams stay yours',pB:'Goals and photos are stored on this device. No account, no bank connection, no money transfers.',sT:'Made for small steps',sB:'EleBank tracks the money you set aside yourself. Deleting browser data or uninstalling the app may remove your goals.',tl:'A little closer to your dreams',fT:'A dream worth saving for',fS:'Give your goal a name, a number, and a little inspiration.',emo:'Emoji',up:'Upload Image',insp:'A little inspiration',inspS:'Little illustrations for your big dreams.',ch:'Choose image',chS:'Pick a photo of your dream from your gallery',stay:'Your photo stays on this device.',nm:'Goal name',nmP:'e.g. My new iPhone',ta:'Target amount',cu:'Currency',cr:'Create my goal',q:'How much do you want to add?',dq:'Delete this goal?',ok:'Confirm',cn:'Cancel',err:'Enter a name and a valid amount',ins:'Insights',other:'عربي',cl:['Pink','Purple','Blue','Green','Amber'],n:['House','Laptop','Phone','Car','Travel','Education','Wedding','Gaming','Fashion','Bike','Gift','Vacation']},
+ar:{tag:'احلم. وفّر. كرّر.',h1:'مدخرات صغيرة. أحلام كبيرة.',sub:'حلمك الكبير القادم يبدأ بالقليل.',add:'أضف هدفاً جديداً',dev:'محفوظ على جهازك',list:'قائمة أحلامي',tgt:'الهدف',sv:'المدّخر',am:'أضف مبلغاً',del:'حذف',saving:'قيد الادخار',done:'تحقق',tot:'إجمالي المدخرات',gl:'عدد الأهداف',cp:'المكتملة',tabs:['مدخراتي','الإحصاءات','الإعدادات'],look:'انظر كم قطعت من الطريق',steps:'خطوات صغيرة. تقدّم حقيقي.',prog:'قيد التنفيذ',byc:'مدخراتك حسب العملة',rec:'آخر الإيداعات',none:'لا شيء بعد',lang:'لغة التطبيق',dark:'الوضع الداكن',darkS:'وهج أهدأ لمدخراتك.',theme:'لون التطبيق',themeS:'اجعل قائمة أحلامك تشبهك.',pT:'أحلامك تبقى لك',pB:'الأهداف والصور محفوظة على هذا الجهاز. بلا حساب، بلا ربط بنك، بلا تحويل أموال.',sT:'مصمم للخطوات الصغيرة',sB:'التطبيق يتتبّع المبلغ الذي تدّخره بنفسك. مسح بيانات المتصفح أو حذف التطبيق قد يزيل أهدافك.',tl:'أقرب قليلاً إلى أحلامك',fT:'حلم يستحق الادخار',fS:'أعطِ هدفك اسماً ورقماً وقليلاً من الإلهام.',emo:'إيموجي',up:'رفع صورة',insp:'قليل من الإلهام',inspS:'رسومات صغيرة لأحلامك الكبيرة.',ch:'اختر صورة',chS:'اختر صورة حلمك من معرض الصور',stay:'صورتك تبقى على هذا الجهاز.',nm:'اسم الهدف',nmP:'مثال: هاتفي الجديد',ta:'المبلغ المستهدف',cu:'العملة',cr:'إنشاء هدفي',q:'كم تريد أن تضيف؟',dq:'حذف هذا الهدف؟',ok:'تأكيد',cn:'إلغاء',err:'أدخل اسماً ومبلغاً صحيحاً',ins:'الإحصاءات',other:'EN',cl:['وردي','بنفسجي','أزرق','أخضر','كهرماني'],n:['بيت','لابتوب','هاتف','سيارة','سفر','تعليم','زفاف','ألعاب','أزياء','دراجة','هدية','عطلة']}};
+const ICO={wallet:'<path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H5a2 2 0 0 1-2-1z"/><path d="M16 14h2"/>',chart:'<path d="M5 20V10M10 20V4M15 20v-8M20 20V8"/>',gear:'<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>',flag:'<path d="M5 21V4M5 4h12l-2 4 2 4H5"/>',cc:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',ck:'<path d="m5 12 5 5 9-10"/>',shield:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/>',shieldc:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',heart:'<path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/>',tr:'<path d="M4 6h9M8.5 4v2M6 6c1 4 4 7 7 8M12 6c-1 4-4 7-8 9M14 20l4-9 4 9M15.5 17h5"/>',moon:'<path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z"/>',pal:'<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.5-2.2-.5-1.2.2-2.3 1.5-2.3H17a4 4 0 0 0 4-4c0-5-4-9.500-9-9.500z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',plus:'<path d="M12 5v14M5 12h14"/>',sp:'<path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>',smile:'<circle cx="12" cy="12" r="9"/><path d="M8 14c1 2 2.500 3 4 3s3-1 4-3M9 9.500v.5M15 9.500v.5"/>',img:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.500"/><path d="m3 17 5-5 4 4 3-3 6 5"/>',back:'<path d="M19 12H5M11 6l-6 6 6 6"/>'};
+const ico=(n,z=22)=>`<svg class="i" width="${z}" height="${z}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICO[n]}</svg>`;
+const ILL=['<path class="p2" d="M8 30 32 10l24 20z"/><rect class="p3" x="14" y="29" width="36" height="22" rx="3"/><rect class="p1" x="28" y="38" width="9" height="13" rx="2"/><rect class="b" x="18" y="34" width="8" height="8" rx="1.5"/><rect class="b" x="40" y="34" width="8" height="8" rx="1.5"/><circle fill="#6fbf73" cx="9" cy="46" r="5"/>',
+'<rect class="p2" x="14" y="14" width="36" height="25" rx="3"/><rect class="b" x="17" y="17" width="30" height="19" rx="1.5"/><path class="p3" d="M17 36l8-10 6 7 5-5 11 8z"/><path class="p1" d="M8 42h48l-4 7H12z"/>',
+'<g transform="rotate(12 32 32)"><rect class="p1" x="20" y="6" width="24" height="48" rx="5"/><rect class="p3" x="23" y="12" width="18" height="36" rx="2"/><rect class="b" x="25" y="16" width="6" height="6" rx="1.5"/><rect class="y" x="33" y="16" width="6" height="6" rx="1.5"/><rect class="p2" x="25" y="26" width="14" height="4" rx="2"/></g>',
+'<path class="p1" d="M7 40c0-4 2-6 6-7l7-9h24l6 9c4 1 6 3 6 7v4H7z"/><path class="b" d="M22 27h9v6H17zM34 27h8l4 6H34z"/><circle class="d" cx="20" cy="46" r="6"/><circle class="w" cx="20" cy="46" r="2.500"/><circle class="d" cx="46" cy="46" r="6"/><circle class="w" cx="46" cy="46" r="2.500"/><rect class="y" x="52" y="37" width="4" height="4" rx="1"/>',
+'<circle class="b" cx="30" cy="34" r="20"/><path fill="#6fbf73" d="M20 24c4-4 9-3 11 1s-3 6-6 8-8-1-5-9z"/><path class="w" stroke="var(--acc)" stroke-width="1.500" d="M54 12 32 30l-9-3-3 3 8 4 3 9 3-3-1-8z"/>',
+'<path class="p1" d="M32 12 6 24l26 12 26-12z"/><path class="p2" d="M16 32v10c0 4 8 8 16 8s16-4 16-8V32L32 40z"/><path stroke="#ffd166" stroke-width="2" d="M54 26v14"/><circle class="y" cx="54" cy="42" r="2.500"/><rect class="b" x="12" y="53" width="40" height="4" rx="2"/>',
+'<circle cx="32" cy="42" r="13" fill="none" stroke="#ffd166" stroke-width="6"/><path class="b" d="M24 17h16l4 6-12 12-12-12z"/><path class="w" opacity=".5" d="M24 17h16l-8 18z"/><path class="p1" d="M10 14c-3-3-7 1-4 4l4 4 4-4c3-3-1-7-4-4z"/>',
+'<path class="p1" d="M14 22h36c6 0 10 8 10 18 0 6-4 8-8 6l-8-6H20l-8 6c-4 2-8 0-8-6 0-10 4-18 10-18z"/><path class="w" d="M19 28h4v4h4v4h-4v4h-4v-4h-4v-4h4z"/><circle class="y" cx="43" cy="30" r="2.500"/><circle class="b" cx="48" cy="35" r="2.500"/><path d="M32 22c0-6 4-6 4-10" stroke="var(--acc)" fill="none" stroke-width="2"/>',
+'<path d="M32 22v-4a4 4 0 1 0-4-4M32 22 12 32h40z" stroke="#ffd166" stroke-width="2.500" fill="none" stroke-linejoin="round"/><path class="p1" d="M24 30h16l2 6 8 20H14l8-20z"/><rect class="w" x="23" y="35" width="18" height="4"/>',
+'<circle class="d" cx="14" cy="44" r="8"/><circle class="w" cx="14" cy="44" r="3"/><circle class="d" cx="50" cy="44" r="8"/><circle class="w" cx="50" cy="44" r="3"/><path class="p1" d="M18 40c0-6 6-10 12-10h10l6 10z"/><rect class="p2" x="20" y="26" width="12" height="4" rx="2"/><path d="M44 30l4-12h6" stroke="var(--acc)" stroke-width="3" fill="none" stroke-linecap="round"/>',
+'<rect class="b" x="12" y="28" width="40" height="26" rx="3"/><rect class="p3" x="10" y="22" width="44" height="9" rx="2"/><rect class="p1" x="29" y="22" width="6" height="32"/><rect class="p1" x="12" y="38" width="40" height="5"/><path class="p1" d="M32 22c-8-12-18-4-10 0zM32 22c8-12 18-4 10 0z"/>',
+'<ellipse fill="#8fd3e8" cx="32" cy="52" rx="26" ry="6"/><path fill="#ffd9a0" d="M14 52c4-10 32-10 36 0z"/><path d="M30 46c0-10 2-16 6-22" stroke="#d98b4a" stroke-width="3" fill="none"/><path fill="#4fb36b" d="M36 24c-6-8-16-6-20 0 8-3 14-2 20 0zM36 24c4-8 14-8 18-2-8-2-14-1-18 2z"/><circle class="y" cx="50" cy="14" r="6"/><path class="p1" d="M40 38c0-6 12-6 12 0z"/>'];
+const ill=(i,z)=>`<svg class="ill" width="${z}" height="${z}" viewBox="0 0 64 64"><ellipse cx="32" cy="58" rx="19" ry="3" fill="#000" opacity=".25"/>${ILL[i]}<circle class="y" cx="9" cy="14" r="1.600"/><circle class="y" cx="57" cy="26" r="1.200"/><path d="M54 6v7M50.500 9.500h7" stroke="var(--acc)" stroke-width="1.400" stroke-linecap="round"/></svg>`;
+const PIG='<svg class="pig" viewBox="0 0 128 100"><defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--gl0)" stop-opacity=".9"/><stop offset=".45" style="stop-color:var(--acc)" stop-opacity=".5"/><stop offset="1" style="stop-color:var(--acc)" stop-opacity=".85"/></linearGradient></defs><path class="tail" d="M15 58c-7 2-8 9-6 13" stroke="var(--acc)" stroke-width="3" fill="none" stroke-linecap="round"/><g class="coin"><circle class="y" cx="48" cy="19" r="8"/><circle cx="48" cy="19" r="4" fill="none" stroke="#e8a317" stroke-width="2"/></g><path class="p1" d="M14 54C12 36 28 26 48 26C56 26 62 27 68 29C70 20 82 16 92 20C102 24 106 34 104 44C108 56 112 68 112 80Q112 90 104 90Q98 90 98 84C98 76 96 68 94 60C88 66 84 72 84 80V90Q84 94 80 94H70Q66 94 66 90V84C58 86 52 86 46 84V90Q46 94 42 94H32Q28 94 28 90V80C18 74 14 66 14 54z"/><g class="ear"><path class="p3" d="M72 34c-12-2-20 8-18 22s12 20 20 14c6-4 8-18 4-28-2-5-4-7-6-8z"/><path class="p2" d="M70 42c-8-1-12 7-10 15s8 12 12 9c4-3 4-14 2-21z"/></g><circle cx="92" cy="34" r="3.5" fill="#2b0f1a"/><circle cx="93.2" cy="32.8" r="1.3" fill="#fff"/><path class="tusk" fill="#fff" fill-opacity=".9" d="M103 50c8 0 14 4 16 10-6-3-11-4-17-2z"/><path d="M97 64q5 2 10 0M97 72q5 2 10 0" stroke="#fff" stroke-opacity=".35" fill="none" stroke-width="1.4" stroke-linecap="round"/><path fill="#fff" fill-opacity=".85" transform="translate(-18 -2)" d="M56 76c-8-5-13-8-9-12 3-2.5 7 0 9 3 2-3 6-5.5 9-3 4 4-1 7-9 12z"/><path d="M24 52c1-9 9-17 22-19" stroke="#fff" stroke-opacity=".9" stroke-width="4" fill="none" stroke-linecap="round"/></svg>';
+const CUR=['USD','EUR','GBP','SAR','AED','KWD','QAR','EGP'],CH={pink:'#ff6b9d',purple:'#8b5cf6',blue:'#3b82f6',green:'#10b981',orange:'#f59e0b'};
+let S={goals:[],lang:'en',dark:false,color:'pink'};
+try{Object.assign(S,JSON.parse(localStorage.getItem('pigbank')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('pigbank',JSON.stringify(S))}catch(e){}};
+if(!S.v2){S.v2=1;S.dark=false;save()}
+let tab='home',fm={icon:0,img:null,mode:'emoji',cur:'USD'};
+const t=k=>I[S.lang][k],isDark=()=>S.dark===true;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money=(n,c)=>new Intl.NumberFormat(S.lang,{style:'currency',currency:c,maximumFractionDigits:0}).format(n);
+const pct=(a,b)=>b>0?Math.min(100,Math.round(a/b*100)):0;
+const dt=ts=>new Date(ts).toLocaleDateString(S.lang,{month:'short',day:'numeric',year:'numeric'});
+const ring=(p,z)=>`<svg width="${z}" height="${z}" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.900" fill="none" stroke="var(--card2)" stroke-width="3"/><circle cx="18" cy="18" r="15.900" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linecap="round" pathLength="100" stroke-dasharray="${p} 100" transform="rotate(-90 18 18)"/><text x="18" y="21.500" text-anchor="middle" font-size="9" font-weight="800" style="fill:var(--tx)">${p}<tspan font-size="5">%</tspan></text></svg>`;
+const head=(ti,su)=>`<div class="hd"><div class="lg">${ico('wallet',26)}</div><div class="t"><h1>${ti}</h1><p class="mut sm">${su}</p></div><button class="pill" onclick="setLang('${S.lang==='en'?'ar':'en'}')">${t('other')}</button></div>`;
+const cur0=()=>[...new Set(S.goals.map(g=>g.cur))];
+const totals=()=>`<div class="card stats"><div>${ico('wallet',24)}<b>${cur0().map(c=>money(S.goals.filter(g=>g.cur===c).reduce((a,g)=>a+g.saved,0),c)).join(' · ')||money(0,'USD')}</b><span class="mut sm">${t('tot')}</span></div><div>${ico('flag',24)}<b>${S.goals.length}</b><span class="mut sm">${t('gl')}</span></div><div><span class="g">${ico('cc',24)}</span><b>${S.goals.filter(g=>g.saved>=g.target).length}</b><span class="mut sm">${t('cp')}</span></div></div>`;
+function home(){
+ return head('EleBank.',t('tl'))+`<div class="card hero" style="padding:24px"><p class="tag">${ico('heart',14)} ${t('tag')}</p>${PIG}<h2 class="big">${t('h1')}</h2><p class="mut" style="margin:34px 0 20px;font-size:18px">${t('sub')}</p><button class="btn" onclick="go('add')">${ico('plus',20)} ${t('add')}</button></div>
+ <p class="mut sm" style="text-align:center;margin:-4px 0 26px">${ico('shield',16)} ${t('dev')}</p>
+ <h3 class="ch">${t('list')}<span class="cnt">${S.goals.length}</span></h3>`+
+ S.goals.map(g=>{const p=pct(g.saved,g.target),d=g.saved>=g.target;return `<div class="card"><div class="thumb">${g.img?`<img src="${g.img}" alt="">`:ill(g.icon,130)}<span class="badge">${d?ico('cc',15)+' '+t('done'):ico('sp',15)+' '+t('saving')}</span></div><h3 style="font-size:24px">${esc(g.name)}</h3><p class="mut" style="margin:2px 0 14px">${t('tgt')} · ${money(g.target,g.cur)}</p><div class="row"><div><p class="mut">${t('sv')}</p><p class="num">${money(g.saved,g.cur)}</p></div>${ring(p,84)}</div><div class="row" style="margin-top:18px"><button class="btn g" style="flex:1" onclick="askAdd(${g.id})">${ico('plus',20)} ${t('am')}</button><button class="pill" style="background:none;border:0;color:var(--mut)" onclick="askDel(${g.id})">${ico('trash',20)} ${t('del')}</button></div></div>`}).join('')+totals()+`<p class="mut sm" style="text-align:center">EleBank · ${t('tl')}</p>`;
+}
+function add(){
+ return `<div class="top"><button class="back" onclick="go('home')">${ico('back',22)}</button><span>${t('add')}</span><span style="width:52px"></span></div>
+ <h1 style="font-size:32px;margin-top:26px">${t('fT')}</h1><p class="mut" style="margin-top:10px;font-size:19px">${t('fS')}</p>
+ <div class="seg"><button id="b-emoji" class="${fm.mode==='emoji'?'on':''}" onclick="setMode('emoji')">${ico('smile',22)} ${t('emo')}</button><button id="b-upload" class="${fm.mode==='upload'?'on':''}" onclick="setMode('upload')">${ico('img',22)} ${t('up')}</button></div>
+ <div id="eg" style="${fm.mode==='emoji'?'':'display:none'}"><h3 class="ch" style="margin:0;font-size:20px">${t('insp')}<span class="cnt">12</span></h3><p class="mut sm" style="margin-top:6px">${t('inspS')}</p><div class="grid3">${ILL.map((_,i)=>`<button class="ic ${i===fm.icon?'on':''}" onclick="pick(${i})">${ill(i,72)}${t('n')[i]}</button>`).join('')}</div></div>
+ <div id="ug" style="${fm.mode==='upload'?'':'display:none'}"><div class="up" onclick="fi.click()"><div id="pv">${fm.img?`<img src="${fm.img}" alt="">`:`<div class="cam">${ico('cam',34)}</div><b style="color:var(--at);font-size:24px">${t('ch')}</b><p class="mut" style="margin-top:8px">${t('chS')}</p>`}</div></div><p class="mut sm" style="text-align:center">${ico('lock',15)} ${t('stay')}</p><input id="fi" type="file" accept="image/*" hidden onchange="onFile(this)"></div>
+ <label>${t('nm')}</label><input id="nm" placeholder="${t('nmP')}" maxlength="40">
+ <label>${t('ta')}</label><input id="am" inputmode="decimal" placeholder="0.00">
+ <label>${t('cu')}</label><div class="chips">${CUR.map(c=>`<button class="cc ${c===fm.cur?'on':''}" data-c="${c}" onclick="setCur('${c}')">${c}</button>`).join('')}</div>
+ <p class="err" id="er"></p><button class="btn" onclick="create()">${ico('plus',20)} ${t('cr')}</button>`;
+}
+function ins(){
+ const by={};S.goals.forEach(g=>{(by[g.cur]=by[g.cur]||{s:0,t:0});by[g.cur].s+=g.saved;by[g.cur].t+=g.target});
+ const deps=S.goals.flatMap(g=>g.dep.map(d=>({n:g.name,c:g.cur,a:d.a,d:d.d}))).sort((a,b)=>b.d-a.d).slice(0,8);
+ return head(t('ins'),t('tl'))+`<div class="card hero" style="padding:26px"><h2 style="font-size:32px;line-height:1.2;max-width:62%">${t('look')}</h2>${PIG.replace('class="pig"','class="pig" style="width:130px;top:30px"')}<p class="mut" style="margin:12px 0 16px;font-size:18px;max-width:62%">${t('steps')}</p><p style="color:var(--at);font-weight:700">${ico('flag',20)} ${S.goals.filter(g=>g.saved<g.target).length} · ${t('prog')}</p></div>`+totals()+
+ `<h3 class="ch" style="margin-top:26px">${t('byc')}</h3>`+(Object.keys(by).map(c=>`<div class="card row" style="padding:24px"><div><p class="mut">${c}</p><p class="num" style="font-size:42px;margin:6px 0">${money(by[c].s,c)}</p><p class="mut">${t('tgt')} · ${money(by[c].t,c)}</p></div>${ring(pct(by[c].s,by[c].t),100)}</div>`).join('')||`<p class="mut">${t('none')}</p>`)+
+ `<h3 class="ch" style="margin-top:26px">${t('rec')}</h3>`+(deps.map(d=>`<div class="dep"><div class="sq">${ico('plus',26)}</div><div><b style="font-size:20px">${esc(d.n)}</b><p class="mut">${dt(d.d)}</p></div><span class="a">${money(d.a,d.c)}</span></div>`).join('')||`<p class="mut">${t('none')}</p>`);
+}
+function set(){
+ const ks=Object.keys(CH),ci=ks.indexOf(S.color);
+ return head(t('tabs')[2],t('tl'))+`<div class="card hero" style="text-align:center;padding:30px 20px"><div style="width:140px;margin:0 auto 10px;position:relative;height:120px">${PIG.replace('class="pig"','class="pig" style="width:140px;top:0;inset-inline-end:0"')}</div><h2 style="font-size:34px">EleBank</h2><p class="mut" style="font-size:18px;margin-top:6px">${t('tl')}</p></div>
+ <div class="card"><b style="font-size:19px;color:var(--tx)"><span style="color:var(--at)">${ico('tr',24)}</span> ${t('lang')}</b><div class="row" style="margin-top:16px"><button class="btn ${S.lang==='en'?'':'k'}" style="border-radius:18px" onclick="setLang('en')">English ${S.lang==='en'?ico('ck',18):''}</button><button class="btn ${S.lang==='ar'?'':'k'}" style="border-radius:18px" onclick="setLang('ar')">العربية ${S.lang==='ar'?ico('ck',18):''}</button></div></div>
+ <div class="card row"><div class="row" style="justify-content:flex-start"><div class="sq">${ico('moon',26)}</div><div><b style="font-size:19px">${t('dark')}</b><p class="mut">${t('darkS')}</p></div></div><button class="sw ${isDark()?'on':''}" onclick="toggleDark()" aria-label="${t('dark')}"><i>${ico('moon',16)}</i></button></div>
+ <div class="card"><div class="row" style="justify-content:flex-start"><div class="sq">${ico('pal',26)}</div><div><b style="font-size:19px">${t('theme')}</b><p class="mut">${t('themeS')}</p></div></div><div class="dots">${ks.map(c=>`<button class="dot ${c===S.color?'on':''}" style="background:${CH[c]}" onclick="setColor('${c}')" aria-label="${c}">${c===S.color?ico('ck',20):''}</button>`).join('')}</div><div style="text-align:center"><span class="pill"><span style="width:9px;height:9px;border-radius:50%;background:var(--acc)"></span> ${t('cl')[ci]} ${ico('cc',16)}</span></div></div>
+ <div class="card"><b style="font-size:19px"><span style="color:var(--ok)">${ico('shieldc',24)}</span> ${t('pT')}</b><p class="mut" style="margin-top:12px;font-size:18px">${t('pB')}</p></div>
+ <div class="card"><b style="font-size:19px"><span style="color:var(--at)">${ico('heart',24)}</span> ${t('sT')}</b><p class="mut" style="margin-top:12px;font-size:18px">${t('sB')}</p></div><p class="mut sm" style="text-align:center">EleBank · 1.0</p>`;
+}
+const V={home,add,ins,set};
+function syncAppIcon(){try{const C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return;const P=(C.Plugins&&C.Plugins.AppIcon)||(C.registerPlugin&&C.registerPlugin('AppIcon'));if(!P||localStorage.getItem('elebank_icon')===S.color)return;localStorage.setItem('elebank_icon',S.color);P.set({color:S.color}).catch(()=>localStorage.removeItem('elebank_icon'))}catch(e){}}
+function render(){syncAppIcon();
+ const d=document.documentElement;d.dataset.c=S.color;d.dataset.theme=isDark()?'dark':'light';d.lang=S.lang;d.dir=S.lang==='ar'?'rtl':'ltr';
+ app.innerHTML=V[tab]();
+ const nv=document.getElementById('nav');nv.style.display=tab==='add'?'none':'flex';
+ nv.innerHTML=[['home','wallet'],['ins','chart'],['set','gear']].map((x,i)=>`<button class="${tab===x[0]?'on':''}" onclick="go('${x[0]}')">${ico(x[1],26)}${t('tabs')[i]}</button>`).join('');
+}
+function go(x){tab=x;render();scrollTo(0,0)}
+function setLang(l){S.lang=l;save();render()}
+function toggleDark(){S.dark=!isDark();save();render()}
+function setColor(c){S.color=c;save();render()}
+function setMode(m){fm.mode=m;eg.style.display=m==='emoji'?'':'none';ug.style.display=m==='upload'?'':'none';document.getElementById('b-emoji').classList.toggle('on',m==='emoji');document.getElementById('b-upload').classList.toggle('on',m==='upload')}
+function pick(i){fm.icon=i;document.querySelectorAll('.ic').forEach((b,j)=>b.classList.toggle('on',i===j))}
+function setCur(c){fm.cur=c;document.querySelectorAll('.cc').forEach(b=>b.classList.toggle('on',b.dataset.c===c))}
+function onFile(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);fm.img=c.toDataURL('image/jpeg',.8);pv.innerHTML=`<img src="${fm.img}" alt="">`};im.src=r.result};r.readAsDataURL(f)}
+function create(){
+ const n=nm.value.trim(),a=parseFloat(am.value);
+ if(!n||!(a>0)){er.textContent=t('err');return}
+ S.goals.push({id:Date.now(),name:n,target:a,cur:fm.cur,icon:fm.icon,img:fm.mode==='upload'?fm.img:null,saved:0,dep:[]});
+ fm={icon:0,img:null,mode:'emoji',cur:'USD'};save();go('home');
+}
+function modal(body,okL,fn){m.innerHTML=`<div class="ov"><div class="card">${body}<div class="row" style="margin-top:18px"><button class="btn g" onclick="m.innerHTML=''">${t('cn')}</button><button class="btn" id="ok">${okL}</button></div></div></div>`;document.getElementById('ok').onclick=()=>{fn();m.innerHTML=''};}
+function cheer(txt){const o=document.createElement('div');o.className='cheer';const em=['❤️','🪙','✨','💖','⭐'];let h=`<span class="amt">${txt}</span>${PIG.replace('class="pig"','class="pig happy"')}`;for(let i=0;i<14;i++){const a=i/14*6.283,r=120+Math.random()*90;h+=`<span class="cf" style="--x:${Math.cos(a)*r}px;--y:${Math.sin(a)*r-40}px;--r:${(Math.random()*80-40)|0}deg">${em[i%5]}</span>`}o.innerHTML=h;document.body.appendChild(o);setTimeout(()=>o.remove(),2100)}
+function askAdd(id){const g=S.goals.find(x=>x.id===id);modal(`<b style="font-size:20px">${esc(g.name)}</b><p class="mut" style="margin:6px 0 12px">${t('q')}</p><input id="mi" inputmode="decimal" placeholder="0.00">`,t('am'),()=>{const a=parseFloat(mi.value);if(a>0){g.saved+=a;g.dep.unshift({a,d:Date.now()});save();render();cheer('+ '+money(a,g.cur))}})}
+function askDel(id){const g=S.goals.find(x=>x.id===id);modal(`<b style="font-size:20px">${esc(g.name)}</b><p class="mut" style="margin-top:6px">${t('dq')}</p>`,t('del'),()=>{S.goals=S.goals.filter(x=>x.id!==id);save();render()})}
+render();
+const sp=document.createElement('div');sp.id='splash';sp.innerHTML=`${PIG}<h1>EleBank</h1><p>${t('tl')}</p>`;document.body.appendChild(sp);
+sp.onclick=()=>sp.remove();setTimeout(()=>sp.classList.add('out'),2000);setTimeout(()=>sp.remove(),2700);
+</script></body></html>
